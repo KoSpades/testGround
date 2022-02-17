@@ -54,18 +54,19 @@ class Log:
         self._log(log_entry)
 
     def _log(self, entry):
+        # In memory mode: since memory is always encrypted, we just append
         if self.in_memory:
             self.log.append(entry)
         else:
+            # case 1: durable, non-encrypted log: write directly
             if not self.encrypted:
                 with open(self.log_path, 'ab') as log:
                     entry_to_add = pickle.dumps(entry)
                     log.write(entry_to_add)
+            # case 2: durable, encrypted log: need to encrypte the content part
+            # note: we still keep the caller ID field as plaintext
             else:
                 with open(self.log_path, 'ab') as log:
-                    # Look at the plaintext entry in bytes
-                    entry_in_bytes = pickle.dumps(entry)
-                    # print(entry_in_bytes)
                     # Look at plaintext fields
                     # print(entry.caller_id)
                     # print(entry.content)
@@ -121,6 +122,8 @@ if __name__ == "__main__":
             cur_plain_content_in_bytes = global_sym_key.decrypt(i.content)
             cur_content_object = pickle.loads(cur_plain_content_in_bytes)
             print(cur_content_object)
+        else:
+            print(i.content)
 
     # print("Now testing in memory log:")
     # cur_log = Log(True)
