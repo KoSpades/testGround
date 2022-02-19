@@ -1,4 +1,4 @@
-from .database import Base, DATABASE_URL
+from .database import Base, engine
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import event
@@ -7,16 +7,12 @@ from .crud import user_repo
 from .responses import response
 from contextlib import contextmanager
 
-# global engine
 
 def _fk_pragma_on_connect(dbapi_con, con_record):
     dbapi_con.execute('pragma foreign_keys=ON')
 
 @contextmanager
 def get_db():
-
-    # global engine
-    engine = create_engine(DATABASE_URL)
 
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -30,17 +26,8 @@ def get_db():
         yield db
     finally:
         db.close()
-        engine.dispose()
 
-def create_user(request, write_ahead_log=None):
-    if write_ahead_log is not None:
-        wal_entry = "database_api.create_user(User(user_name='" \
-                    + request.user_name \
-                    + "',password='" \
-                    + request.password \
-                    + "'))"
-        # fake a caller ID here
-        write_ahead_log.log(1, wal_entry)
+def create_user(request):
     with get_db() as session:
         user = user_repo.create_user(session, request)
         if user:
@@ -64,3 +51,9 @@ def get_all_users():
             return response.UserResponse(status=1, msg="success", data=users)
         else:
             return response.UserResponse(status=-1, msg="no existing users", data=[])
+
+def recover_users(users):
+    with get_db() as session:
+        res = user_repo.recover_users(session, users)
+        if res is not None:
+            return 0

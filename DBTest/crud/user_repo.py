@@ -32,7 +32,8 @@ def get_all_users(db: Session):
 
 
 def create_user(db: Session, user: UserRegister):
-    db_user = User(user_name=user.user_name,
+    db_user = User(id=user.id,
+                   user_name=user.user_name,
                    password=user.password,)
     try:
         db.add(db_user)
@@ -43,3 +44,17 @@ def create_user(db: Session, user: UserRegister):
         return None
 
     return db_user
+
+def recover_users(db: Session, users):
+    users_to_add = []
+    for user in users:
+        cur_user = User(id=user.id, user_name=user.user_name, password=user.password)
+        users_to_add.append(cur_user)
+    try:
+        db.add_all(users_to_add)
+        db.commit()
+    except SQLAlchemyError as e:
+        db.rollback()
+        return None
+
+    return "success"
