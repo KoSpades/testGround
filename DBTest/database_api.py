@@ -57,3 +57,8 @@ def recover_users(users):
         res = user_repo.recover_users(session, users)
         if res is not None:
             return 0
+
+def get_name_by_id_list(id_list):
+    with get_db() as session:
+        res = user_repo.get_name_by_id_list(session, id_list)
+        return res

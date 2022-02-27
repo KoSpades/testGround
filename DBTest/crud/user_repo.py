@@ -58,3 +58,10 @@ def recover_users(db: Session, users):
         return None
 
     return "success"
+
+def get_name_by_id_list(db: Session, id_list):
+    name_list = []
+    res = db.query(User).filter(User.id.in_(id_list)).all()
+    for i in res:
+        name_list.append(i.user_name)
+    return name_list
