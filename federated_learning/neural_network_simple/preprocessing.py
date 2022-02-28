@@ -27,7 +27,7 @@ def save_data(data, dir, file_name):
         torch.save(data, file)
 
 
-def load_data(num = 8, size = 6250):
+def load_data(num=8, size=6250):
     """Load CIFAR-10 (training and test set)."""
     transform = transforms.Compose(
     [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
