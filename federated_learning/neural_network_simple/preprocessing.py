@@ -34,6 +34,8 @@ def load_data(num=8, size=6250):
     )
     trainset = CIFAR10(".", train=True, download=True, transform=transform)
     trainsets = random_split(trainset, [size]*num, generator=torch.Generator().manual_seed(42))
+    train_size = int(0.9*len(trainset))
+    _, val_ds = random_split(trainset, [train_size, len(trainset)-train_size])
     testset = CIFAR10(".", train=False, download=True, transform=transform)
     # trainloader = DataLoader(trainset, batch_size=32, shuffle=True)
     # print(type(testset))
@@ -41,9 +43,10 @@ def load_data(num=8, size=6250):
     # print(type(trainloader))
     # num_examples = {"trainset" : len(trainset), "testset" : len(testset)}
     # print(num_examples)
-    return trainsets, testset
+    return trainsets, testset, val_ds
 
 if __name__ == "__main__":
-    trainsets, testset = load_data()
+    trainsets, testset, val_set = load_data()
     save_data(trainsets, "training", 'train')
     save_data(testset, "testing", 'test')
+    save_data(val_set, "validation", "val")

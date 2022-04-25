@@ -1,4 +1,10 @@
 wal.pkl
 federated_learning/logistic_regression/train.csv.zip
 federated_learning/neural_network_simple/cifar-10-python.tar.gz
-
+ddprofiler/
+nbc/
+federated_learning/neural_network_simple/validation/
+federated_learning/neural_network_simple/cifar_local.npy
+dsapplicationregistration/__pycache__/
+app_connectors/__pycache__/
+DSPlots/__pycache__/

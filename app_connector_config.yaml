@@ -1,0 +1,2 @@
+connector_name: "block"
+connector_module_path: "app_connectors/block.py"

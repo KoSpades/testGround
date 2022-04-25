@@ -41,6 +41,7 @@ def test(net, testloader):
 
 def train(net, trainloader, epochs, val = None):
     """Train the network on the training set."""
+    acc_list = []
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
     cross = float('inf')
@@ -51,12 +52,14 @@ def train(net, trainloader, epochs, val = None):
             loss = criterion(net(images), labels)
             loss.backward()
             optimizer.step()
-        # if val != None:
-        #     loss, _ = test(net, val)
-        #     if cross > loss:
-        #         cross = loss
-        #     else:
-        #         return i
+        if val is not None:
+            loss, accuracy = test(net, val)
+            acc_list.append(accuracy)
+            # if cross > loss:
+            #     cross = loss
+            # else:
+            #     return i
+    return acc_list
 
 def get_model_parameters(net):
     return [val.cpu().numpy() for _, val in net.state_dict().items()]
