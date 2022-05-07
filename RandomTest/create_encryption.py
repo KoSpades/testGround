@@ -1,7 +1,7 @@
-ifile = open("original.txt", 'rb').read()
+from cryptography.fernet import Fernet
 
-ciphertext_bytes = sym_key.encrypt(ifile)
+key = Fernet.generate_key()
+f = Fernet(key)
 
-file = open("cipher.txt", "wb")
-file.write(ciphertext_bytes)
-file.close()
+token = f.encrypt(b"my deep dark secret")
+print(f.decrypt(token))

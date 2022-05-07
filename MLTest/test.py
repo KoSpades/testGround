@@ -83,4 +83,4 @@ final_test_data['X_ray_image_name'].apply(lambda x: test_arrays.append(read_img(
 y_train = np.concatenate((np.int64(final_train_data['target'].values),
                           np.ones(len(with_corona_augmented), dtype=np.int64)))
 
-# From this point we temporarily move to notebook
+# From this point we temporarily move to notebook (right before Converting Data to tensors)

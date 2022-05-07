@@ -8,3 +8,4 @@ federated_learning/neural_network_simple/cifar_local.npy
 dsapplicationregistration/__pycache__/
 app_connectors/__pycache__/
 DSPlots/__pycache__/
+.DS_Store
