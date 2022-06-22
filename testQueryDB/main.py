@@ -64,27 +64,29 @@ def insert_payment(e_pay):
         conn.close()
     return 0
 
-def get_employee_info():
+def run_custom_query(query):
     conn = connect_to_db()
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
-    cur.execute("SELECT * FROM info")
+    cur.execute(query)
     rows = cur.fetchall()
 
     # convert row objects to dictionary
     res = [dict(zip(row.keys(), row)) for row in rows]
+    return res
+
+def get_employee_info():
+    query = "SELECT * FROM info"
+    res = run_custom_query(query)
     return res
 
 def get_employee_pay():
-    conn = connect_to_db()
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM payment")
-    rows = cur.fetchall()
-
-    # convert row objects to dictionary
-    res = [dict(zip(row.keys(), row)) for row in rows]
+    query = "SELECT * FROM payment"
+    res = run_custom_query(query)
     return res
+
+def get_dept_avg_salary():
+    pass
 
 
 e1 = {"employee_id": 1, "email": "david@gmail.com", "department": "math"}
