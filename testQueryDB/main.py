@@ -65,47 +65,26 @@ def insert_payment(e_pay):
     return 0
 
 def get_employee_info():
-    employees = []
-    try:
-        conn = connect_to_db()
-        conn.row_factory = sqlite3.Row
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM info")
-        rows = cur.fetchall()
+    conn = connect_to_db()
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM info")
+    rows = cur.fetchall()
 
-        # convert row objects to dictionary
-        for i in rows:
-            employee = {}
-            employee["employee_id"] = i["employee_id"]
-            employee["email"] = i["email"]
-            employee["department"] = i["department"]
-            employees.append(employee)
-    except:
-        employees = []
-
-    print(employees)
-    return employees
+    # convert row objects to dictionary
+    res = [dict(zip(row.keys(), row)) for row in rows]
+    return res
 
 def get_employee_pay():
-    pays = []
-    try:
-        conn = connect_to_db()
-        conn.row_factory = sqlite3.Row
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM payment")
-        rows = cur.fetchall()
+    conn = connect_to_db()
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM payment")
+    rows = cur.fetchall()
 
-        # convert row objects to dictionary
-        for i in rows:
-            pay = {}
-            pay["employee_id"] = i["employee_id"]
-            pay["salary"] = i["salary"]
-            pays.append(pay)
-    except:
-        pays = []
-
-    print(pays)
-    return pays
+    # convert row objects to dictionary
+    res = [dict(zip(row.keys(), row)) for row in rows]
+    return res
 
 
 e1 = {"employee_id": 1, "email": "david@gmail.com", "department": "math"}
@@ -155,5 +134,7 @@ if __name__ == "__main__":
     # insert_payment(p8)
 
     # Get the values
-    get_employee_info()
-    get_employee_pay()
+    info_arr = get_employee_info()
+    pay_arr = get_employee_pay()
+    print(info_arr)
+    print(pay_arr)
