@@ -1,11 +1,8 @@
 import os
 import sqlite3
 
-if os.path.exists("database.db"):
-    os.remove("database.db")
-
 def connect_to_db():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('testQueryDB/database.db')
     return conn
 
 def create_info_table():
@@ -130,28 +127,32 @@ p7 = {"employee_id": 7, "salary": 300}
 p8 = {"employee_id": 8, "salary": 100}
 
 if __name__ == "__main__":
-    # Creating the tables
-    create_info_table()
-    create_payment_table()
 
-    # Inserting the employees
-    insert_employee(e1)
-    insert_employee(e2)
-    insert_employee(e3)
-    insert_employee(e4)
-    insert_employee(e5)
-    insert_employee(e6)
-    insert_employee(e7)
-    insert_employee(e8)
-    # Inserting the payments
-    insert_payment(p1)
-    insert_payment(p2)
-    insert_payment(p3)
-    insert_payment(p4)
-    insert_payment(p5)
-    insert_payment(p6)
-    insert_payment(p7)
-    insert_payment(p8)
+    # if os.path.exists("testQueryDB/database.db"):
+    #     os.remove("testQueryDB/database.db")
+    #
+    # # Creating the tables
+    # create_info_table()
+    # create_payment_table()
+    #
+    # # Inserting the employees
+    # insert_employee(e1)
+    # insert_employee(e2)
+    # insert_employee(e3)
+    # insert_employee(e4)
+    # insert_employee(e5)
+    # insert_employee(e6)
+    # insert_employee(e7)
+    # insert_employee(e8)
+    # # Inserting the payments
+    # insert_payment(p1)
+    # insert_payment(p2)
+    # insert_payment(p3)
+    # insert_payment(p4)
+    # insert_payment(p5)
+    # insert_payment(p6)
+    # insert_payment(p7)
+    # insert_payment(p8)
 
     # Get the values
     get_employee_info()
