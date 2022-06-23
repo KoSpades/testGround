@@ -86,7 +86,10 @@ def get_employee_pay():
     return res
 
 def get_dept_avg_salary():
-    pass
+    query = "SELECT department, avg(salary) FROM info, payment " \
+            "WHERE info.employee_id = payment.employee_id GROUP BY department"
+    res = run_custom_query(query)
+    return res
 
 
 e1 = {"employee_id": 1, "email": "david@gmail.com", "department": "math"}
@@ -136,7 +139,10 @@ if __name__ == "__main__":
     # insert_payment(p8)
 
     # Get the values
-    info_arr = get_employee_info()
-    pay_arr = get_employee_pay()
-    print(info_arr)
-    print(pay_arr)
+    info_res = get_employee_info()
+    pay_res = get_employee_pay()
+    dept_avg_salary_res = get_dept_avg_salary()
+
+    # print(info_res)
+    # print(pay_res)
+    print(dept_avg_salary_res)
