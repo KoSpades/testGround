@@ -86,8 +86,9 @@ def get_employee_pay():
     return res
 
 def get_dept_avg_salary():
-    query = "SELECT department, avg(salary) FROM info, payment " \
-            "WHERE info.employee_id = payment.employee_id GROUP BY department"
+    query = "SELECT department, 1 as dept_count FROM info, payment " \
+            "WHERE info.employee_id = payment.employee_id " \
+            "and info.department != 'cs' GROUP BY department"
     res = run_custom_query(query)
     return res
 
@@ -112,37 +113,39 @@ p8 = {"employee_id": 8, "salary": 100}
 
 if __name__ == "__main__":
 
-    # if os.path.exists("testQueryDB/database.db"):
-    #     os.remove("testQueryDB/database.db")
-    #
-    # # Creating the tables
-    # create_info_table()
-    # create_payment_table()
-    #
-    # # Inserting the employees
-    # insert_employee(e1)
-    # insert_employee(e2)
-    # insert_employee(e3)
-    # insert_employee(e4)
-    # insert_employee(e5)
-    # insert_employee(e6)
-    # insert_employee(e7)
-    # insert_employee(e8)
-    # # Inserting the payments
-    # insert_payment(p1)
-    # insert_payment(p2)
-    # insert_payment(p3)
-    # insert_payment(p4)
-    # insert_payment(p5)
-    # insert_payment(p6)
-    # insert_payment(p7)
-    # insert_payment(p8)
+    if os.path.exists("testQueryDB/database.db"):
+        os.remove("testQueryDB/database.db")
+
+    # Creating the tables
+    create_info_table()
+    create_payment_table()
+
+    # Inserting the employees
+    insert_employee(e1)
+    insert_employee(e2)
+    insert_employee(e3)
+    insert_employee(e4)
+    insert_employee(e5)
+    insert_employee(e6)
+    insert_employee(e7)
+    insert_employee(e8)
+    # Inserting the payments
+    insert_payment(p1)
+    insert_payment(p2)
+    insert_payment(p3)
+    insert_payment(p4)
+    insert_payment(p5)
+    insert_payment(p6)
+    insert_payment(p7)
+    insert_payment(p8)
+
+    # TODO: let's write a query here to create a view that filters out CS from info table
 
     # Get the values
     info_res = get_employee_info()
     pay_res = get_employee_pay()
     dept_avg_salary_res = get_dept_avg_salary()
 
-    # print(info_res)
-    # print(pay_res)
+    print(info_res)
+    print(pay_res)
     print(dept_avg_salary_res)
