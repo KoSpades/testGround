@@ -64,6 +64,9 @@ def insert_payment(e_pay):
         conn.close()
     return 0
 
+def create_view_no_cs():
+    pass
+
 def run_custom_query(query):
     conn = connect_to_db()
     conn.row_factory = sqlite3.Row
@@ -86,9 +89,8 @@ def get_employee_pay():
     return res
 
 def get_dept_avg_salary():
-    query = "SELECT department, 1 as dept_count FROM info, payment " \
-            "WHERE info.employee_id = payment.employee_id " \
-            "and info.department != 'cs' GROUP BY department"
+    query = "SELECT department, avg(salary) as dept_count FROM info, payment " \
+            "WHERE info.employee_id = payment.employee_id GROUP BY department"
     res = run_custom_query(query)
     return res
 
