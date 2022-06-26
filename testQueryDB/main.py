@@ -65,7 +65,19 @@ def insert_payment(e_pay):
     return 0
 
 def create_view_no_cs():
-    pass
+    try:
+        conn = connect_to_db()
+        conn.execute('''
+            CREATE VIEW [info_no_cs] AS 
+                SELECT * FROM info WHERE department != 'cs'
+            ;
+        ''')
+        conn.commit()
+        print("info_no_cs view created successfully")
+    except:
+        print("info_no_cs view creation failed")
+    finally:
+        conn.close()
 
 def run_custom_query(query):
     conn = connect_to_db()
@@ -94,6 +106,10 @@ def get_dept_avg_salary():
     res = run_custom_query(query)
     return res
 
+def get_no_cs_view():
+    query = "SELECT * FROM info_no_cs"
+    res = run_custom_query(query)
+    return res
 
 e1 = {"employee_id": 1, "email": "david@gmail.com", "department": "math"}
 e2 = {"employee_id": 2, "email": "jerry@gmail.com", "department": "cs"}
@@ -141,13 +157,15 @@ if __name__ == "__main__":
     insert_payment(p7)
     insert_payment(p8)
 
-    # TODO: let's write a query here to create a view that filters out CS from info table
+    create_view_no_cs()
 
     # Get the values
     info_res = get_employee_info()
     pay_res = get_employee_pay()
     dept_avg_salary_res = get_dept_avg_salary()
+    info_no_cs_res = get_no_cs_view()
 
-    print(info_res)
-    print(pay_res)
-    print(dept_avg_salary_res)
+    # print(info_res)
+    # print(pay_res)
+    # print(dept_avg_salary_res)
+    print(info_no_cs_res)
