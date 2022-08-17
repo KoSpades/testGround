@@ -1,1 +1,0 @@
-from dsapplicationregistration.dsar_core import register

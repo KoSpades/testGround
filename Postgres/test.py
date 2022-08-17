@@ -2,24 +2,23 @@ import psycopg2
 
 conn = psycopg2.connect(database="kos",
                         host="localhost",
-                        user="kos",
+                        user="david",
                         password="",
                         port="5432")
 
 cur = conn.cursor()
 
-# cur.execute('''
-#             CREATE TABLE payment (
-#                 employee_id INTEGER PRIMARY KEY NOT NULL,
-#                 salary INTEGER NOT NULL
-#             );
-#         ''')
+# cur.execute("CREATE USER david")
 
-cur.execute("""INSERT INTO payment(employee_id, salary) VALUES(3, 30);""")
+# cur.execute("GRANT SELECT ON payment TO david")
 
-cur.execute("SELECT * FROM payment")
+# cur.execute("CREATE VIEW low_income as SELECT * FROM payment WHERE salary <= 30")
+
+cur.execute("SELECT * FROM low_income")
 
 print(cur.fetchall())
+
+# cur.execute("GRANT SELECT ON low_income TO david")
 
 cur.close()
 
